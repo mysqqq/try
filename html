@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FB Auto Share - Premium</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s;
+            background: #fff;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-box {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 16px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .status-box.success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .status-box.error {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+            color: white;
+        }
+
+        .status-box.warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .status-box.info {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .status-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-message {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(102, 126, 234, 0.2);
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            width: 0%;
+            transition: width 0.3s;
+            border-radius: 10px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .info-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .warning-text {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>🚀 FB AUTO SHARE</h1>
+                <p>• Mysteriousq •</p>
+            </div>
+
+            <div class="warning-text">
+                <strong>Security:</strong> Keep your cookie private. Never share it with anyone.
+            </div>
+
+            <form id="shareForm" onsubmit="startSharing(event)">
+                <div class="input-group">
+                    <label for="postLink">Post Link</label>
+                    <input 
+                        type="url" 
+                        id="postLink" 
+                        placeholder="https://facebook.com/..." 
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label for="cookie">Facebook Cookie</label>
+                    <textarea 
+                        id="cookie" 
+                        placeholder="Paste your Facebook cookie here..." 
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="shareLimit">Share Limit (Max: 100,000)</label>
+                    <input 
+                        type="number" 
+                        id="shareLimit" 
+                        placeholder="Enter number of shares" 
+                        min="1" 
+                        max="100000" 
+                        value="10"
+                        required
+                    >
+                    <span class="info-badge">Recommended: 1000-10000 shares</span>
+                </div>
+
+                <button type="submit" class="btn" id="submitBtn">
+                    Start Sharing
+                </button>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p style="color: #667eea; font-weight: 600;">Processing your request...</p>
+            </div>
+
+            <div class="status-box" id="statusBox">
+                <div class="status-title" id="statusTitle"></div>
+                <div class="status-message" id="statusMessage"></div>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="stats" id="stats" style="display: none;">
+                    <div class="stat-item">
+                        <div class="stat-label">Shares</div>
+                        <div class="stat-value" id="shareCount">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value" id="statusText">✓</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function startSharing(event) {
+            event.preventDefault();
+
+            const postLink = document.getElementById('postLink').value.trim();
+            const cookie = document.getElementById('cookie').value.trim();
+            const shareLimit = document.getElementById('shareLimit').value.trim();
+
+            // Hide previous status
+            document.getElementById('statusBox').style.display = 'none';
+
+            // Validation
+            if (!postLink || !cookie || !shareLimit) {
+                showStatus('error', '❌ Missing Information', 'Please fill in all fields.');
+                return;
+            }
+
+            if (shareLimit < 1 || shareLimit > 100000) {
+                showStatus('error', '❌ Invalid Limit', 'Share limit must be between 1 and 100,000.');
+                return;
+            }
+
+            // Show loading immediately
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('statusBox').style.display = 'none';
+
+            // Show "Processing" status immediately
+            setTimeout(() => {
+                showStatus('info', 'Processing...', 'Connecting to server and initiating share process. Please wait...');
+            }, 100);
+
+            try {
+                // Build API URL
+                const apiUrl = `https://vern-rest-api.vercel.app/api/autoshare?cookie=${encodeURIComponent(cookie)}&link=${encodeURIComponent(postLink)}&limit=${encodeURIComponent(shareLimit)}`;
+
+                // Make API request
+                const response = await fetch(apiUrl);
+                
+                // Hide loading
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('submitBtn').disabled = false;
+
+                // Handle response
+                if (!response.ok) {
+                    throw new Error(`HTTP Error: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Check for different response scenarios
+                if (data.error) {
+                    // API returned an error
+                    handleError(data.error);
+                } else if (data.success === false) {
+                    // Failed request
+                    handleError(data.message || 'Request failed');
+                } else {
+                    // Success
+                    handleSuccess(data, shareLimit);
+                }
+
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('submitBtn').disabled = false;
+                
+                // Network or fetch error
+                if (error.message.includes('Failed to fetch')) {
+                    showStatus('error', 'Connection Error', 'Unable to reach the API. Check your internet connection or the API might be down.');
+                } else {
+                    showStatus('error', 'Request Failed', error.message);
+                }
+            }
+        }
+
+        function handleSuccess(data, shareLimit) {
+            // Show success status
+            showStatus('success', 'Success!', `Boost started successfully! Processing ${shareLimit} shares now.`);
+            
+            // Show stats
+            document.getElementById('stats').style.display = 'grid';
+            document.getElementById('shareCount').textContent = shareLimit;
+            document.getElementById('statusText').textContent = '✓';
+            
+            // Show progress bar
+            document.getElementById('progressBar').style.display = 'block';
+            animateProgress(100, 2000);
+
+            // Display additional info if available
+            if (data.message) {
+                setTimeout(() => {
+                    document.getElementById('statusMessage').innerHTML += `<br><br><strong>Response:</strong> ${data.message}`;
+                }, 500);
+            }
+        }
+
+        function handleError(errorMessage) {
+            const errorLower = errorMessage.toLowerCase();
+
+            // Check for specific error types
+            if (errorLower.includes('invalid') || errorLower.includes('cookie') || errorLower.includes('token')) {
+                showStatus('error', 'Invalid Cookie/Token', 'Your Facebook cookie is invalid or expired. Please get a fresh cookie and try again.');
+            } else if (errorLower.includes('restrict') || errorLower.includes('blocked') || errorLower.includes('banned')) {
+                showStatus('warning', 'Account Restricted', 'Your Facebook account has been restricted or temporarily blocked. Wait before trying again.');
+            } else if (errorLower.includes('limit') || errorLower.includes('rate')) {
+                showStatus('warning', 'Rate Limited', 'You have hit the rate limit. Please wait a few minutes before trying again.');
+            } else if (errorLower.includes('not found') || errorLower.includes('404')) {
+                showStatus('error', 'Post Not Found', 'The post link is invalid or the post has been deleted.');
+            } else {
+                showStatus('error', 'Error Occurred', errorMessage);
+            }
+        }
+
+        function showStatus(type, title, message) {
+            const statusBox = document.getElementById('statusBox');
+            const statusTitle = document.getElementById('statusTitle');
+            const statusMessage = document.getElementById('statusMessage');
+
+            statusBox.className = `status-box ${type}`;
+            statusTitle.textContent = title;
+            statusMessage.textContent = message;
+            statusBox.style.display = 'block';
+
+            // Hide stats if error
+            if (type === 'error' || type === 'warning') {
+                document.getElementById('stats').style.display = 'none';
+                document.getElementById('progressBar').style.display = 'none';
+            }
+        }
+
+        function animateProgress(targetPercent, duration) {
+            const progressFill = document.getElementById('progressFill');
+            let currentPercent = 0;
+            const increment = targetPercent / (duration / 50);
+
+            const interval = setInterval(() => {
+                currentPercent += increment;
+                if (currentPercent >= targetPercent) {
+                    currentPercent = targetPercent;
+                    clearInterval(interval);
+                }
+                progressFill.style.width = currentPercent + '%';
+            }, 50);
+        }
+    </script>
+</body>
+</html>
