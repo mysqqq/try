@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FB Auto Share - Siegfried Samá</title>
+    <title>TikTok Downloader – Without Watermark</title>
     <style>
         * {
             margin: 0;
@@ -12,20 +12,155 @@
         }
 
         body {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #000000;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 24px 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #ffffff;
+            padding: 20px;
         }
 
         .container {
-            max-width: 400px;
             width: 100%;
+            max-width: 520px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
             animation: fadeIn 0.5s ease;
+        }
+
+        .header h1 {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 15px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease 0.1s backwards;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #333;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-wrapper input::placeholder {
+            color: #aaa;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+            color: #991b1b;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 14px;
+            animation: slideIn 0.3s ease;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+            color: #065f46;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 14px;
+            animation: slideIn 0.3s ease;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            font-size: 14px;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+            animation: pulse 1.5s ease-in-out infinite;
         }
 
         @keyframes fadeIn {
@@ -39,483 +174,198 @@
             }
         }
 
-        .header {
-            margin-bottom: 32px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 22px;
-            font-weight: 600;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-        }
-
-        .warning-text {
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 2px solid #fbbf24;
-            padding: 10px 14px;
-            border-radius: 6px;
-            margin-bottom: 28px;
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .warning-text strong {
-            color: #fbbf24;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .label-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        label {
-            font-weight: 500;
-            color: #a78bfa;
-            font-size: 12px;
-        }
-
-        .get-cookie-link {
-            font-size: 11px;
-            color: #60a5fa;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            padding: 4px 8px;
-            border-radius: 4px;
-            background: rgba(96, 165, 250, 0.1);
-        }
-
-        .get-cookie-link:hover {
-            color: #93c5fd;
-            background: rgba(96, 165, 250, 0.2);
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 11px 14px;
-            border: 1px solid rgba(167, 139, 250, 0.2);
-            border-radius: 8px;
-            font-size: 13px;
-            font-family: inherit;
-            transition: all 0.2s ease;
-            background: rgba(255, 255, 255, 0.05);
-            color: #ffffff;
-        }
-
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: rgba(167, 139, 250, 0.5);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.1);
-        }
-
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 75px;
-            font-family: 'SF Mono', 'Monaco', 'Menlo', monospace;
-            font-size: 11px;
-        }
-
-        .info-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            background: rgba(34, 197, 94, 0.1);
-            color: #22c55e;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 500;
-            margin-top: 6px;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 13px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-top: 8px;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-            opacity: 0.85;
-        }
-
-        .btn:disabled {
-            background: rgba(255, 255, 255, 0.2);
-            color: rgba(255, 255, 255, 0.4);
-            cursor: not-allowed;
-            transform: none;
-            opacity: 1;
-            box-shadow: none;
-        }
-
-        .status-box {
-            margin-top: 24px;
-            padding: 14px 16px;
-            border-radius: 8px;
-            display: none;
-            animation: slideIn 0.3s ease;
-            font-size: 12px;
-            border: 1px solid;
-        }
-
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(8px);
+                transform: translateX(-10px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateX(0);
             }
         }
 
-        .status-box.success {
-            background: rgba(34, 197, 94, 0.1);
-            border-color: rgba(34, 197, 94, 0.3);
-            color: #22c55e;
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
         }
 
-        .status-box.error {
-            background: rgba(239, 68, 68, 0.1);
-            border-color: rgba(239, 68, 68, 0.3);
-            color: #ef4444;
-        }
+        @media (max-width: 480px) {
+            .card {
+                padding: 24px 20px;
+            }
 
-        .status-box.warning {
-            background: rgba(251, 191, 36, 0.1);
-            border-color: rgba(251, 191, 36, 0.3);
-            color: #fbbf24;
-        }
-
-        .status-box.info {
-            background: rgba(59, 130, 246, 0.1);
-            border-color: rgba(59, 130, 246, 0.3);
-            color: #3b82f6;
-        }
-
-        .status-title {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .status-message {
-            font-size: 11px;
-            line-height: 1.5;
-            opacity: 0.9;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        .spinner {
-            width: 28px;
-            height: 28px;
-            border: 2px solid rgba(167, 139, 250, 0.2);
-            border-top-color: #a78bfa;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            margin: 0 auto 10px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading p {
-            color: #a78bfa;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .stat-item {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(167, 139, 250, 0.2);
-            padding: 10px;
-            border-radius: 6px;
-            text-align: center;
-        }
-
-        .stat-label {
-            font-size: 9px;
-            color: #a78bfa;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 500;
-        }
-
-        .stat-value {
-            font-size: 18px;
-            font-weight: 600;
-            margin-top: 4px;
-            color: #ffffff;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            overflow: hidden;
-            margin-top: 12px;
-            display: none;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            width: 0%;
-            transition: width 0.3s ease;
+            .header h1 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>FB Auto Share</h1>
+            <h1>TikTok Downloader</h1>
+            <p>Download videos without watermark</p>
         </div>
 
-        <div class="warning-text">
-            <strong>Security:</strong> Keep your cookie private. Never share it with anyone.
-        </div>
-
-        <form id="shareForm" onsubmit="startSharing(event)">
+        <div class="card">
             <div class="input-group">
-                <div class="label-row">
-                    <label for="cookie">Facebook Cookie</label>
-                    <a href="https://chromewebstore.google.com/detail/get-token-cookie/naciaagbkifhpnoodlkhbejjldaiffcm" 
-                       target="_blank" 
-                       class="get-cookie-link">Get Cookie Token</a>
-                </div>
-                <textarea 
-                    id="cookie" 
-                    placeholder="Paste your Facebook cookie here..." 
-                    required
-                ></textarea>
-            </div>
-
-            <div class="input-group">
-                <label for="postLink">Post Link</label>
-                <input 
-                    type="url" 
-                    id="postLink" 
-                    placeholder="https://facebook.com/..." 
-                    required
-                >
-            </div>
-
-            <div class="input-group">
-                <label for="shareLimit">Share Limit</label>
-                <input 
-                    type="number" 
-                    id="shareLimit" 
-                    placeholder="Enter number of shares" 
-                    min="1" 
-                    max="100000"
-                    required
-                >
-                <span class="info-badge">Max: 100,000 shares</span>
-            </div>
-
-            <button type="submit" class="btn" id="submitBtn">
-                Start
-            </button>
-        </form>
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Processing...</p>
-        </div>
-
-        <div class="status-box" id="statusBox">
-            <div class="status-title" id="statusTitle"></div>
-            <div class="status-message" id="statusMessage"></div>
-            <div class="progress-bar" id="progressBar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <div class="stats" id="stats" style="display: none;">
-                <div class="stat-item">
-                    <div class="stat-label">Shares</div>
-                    <div class="stat-value" id="shareCount">0</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Status</div>
-                    <div class="stat-value" id="statusText">✓</div>
+                <label for="videoUrl">Enter TikTok Video URL</label>
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="videoUrl" 
+                        placeholder="https://www.tiktok.com/@username/video/..."
+                        autocomplete="off"
+                    >
                 </div>
             </div>
+
+            <button class="btn btn-primary" id="downloadBtn">Download</button>
+
+            <div class="loading" id="loading">Downloading video...</div>
+            <div class="error-message" id="errorMessage"></div>
+            <div class="success-message" id="successMessage"></div>
         </div>
     </div>
 
     <script>
-        async function startSharing(event) {
-            event.preventDefault();
+        const videoUrlInput = document.getElementById('videoUrl');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const loading = document.getElementById('loading');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
 
-            const cookie = document.getElementById('cookie').value.trim();
-            const postLink = document.getElementById('postLink').value.trim();
-            const shareLimit = parseInt(document.getElementById('shareLimit').value.trim());
+        downloadBtn.addEventListener('click', fetchAndDownload);
+        videoUrlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') fetchAndDownload();
+        });
 
-            // Hide any previous status
-            document.getElementById('statusBox').style.display = 'none';
-            document.getElementById('stats').style.display = 'none';
-            document.getElementById('progressBar').style.display = 'none';
+        function showError(message) {
+            hideSuccess();
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+            setTimeout(() => {
+                errorMessage.classList.remove('show');
+            }, 5000);
+        }
 
-            if (!cookie || !postLink || !shareLimit) {
-                showStatus('error', 'Missing Information', 'Please fill in all fields.');
+        function showSuccess(message) {
+            hideError();
+            successMessage.textContent = message;
+            successMessage.classList.add('show');
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 5000);
+        }
+
+        function hideError() {
+            errorMessage.classList.remove('show');
+        }
+
+        function hideSuccess() {
+            successMessage.classList.remove('show');
+        }
+
+        function showLoading() {
+            loading.classList.add('show');
+            downloadBtn.disabled = true;
+        }
+
+        function hideLoading() {
+            loading.classList.remove('show');
+            downloadBtn.disabled = false;
+        }
+
+        function isValidTikTokUrl(url) {
+            const patterns = [
+                /tiktok\.com\/@[\w.-]+\/video\/\d+/,
+                /vt\.tiktok\.com\/[\w-]+/,
+                /vm\.tiktok\.com\/[\w-]+/,
+                /tiktok\.com\/t\/[\w-]+/
+            ];
+            return patterns.some(pattern => pattern.test(url));
+        }
+
+        async function fetchAndDownload() {
+            const url = videoUrlInput.value.trim();
+            
+            hideError();
+            hideSuccess();
+
+            if (!url) {
+                showError('Please enter a TikTok video URL.');
                 return;
             }
 
-            if (shareLimit < 1 || shareLimit > 100000) {
-                showStatus('error', 'Invalid Limit', 'Share limit must be between 1 and 100,000.');
+            if (!isValidTikTokUrl(url)) {
+                showError('Invalid TikTok link. Please enter a valid TikTok video URL.');
                 return;
             }
 
-            // Show loading
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('submitBtn').disabled = true;
-            document.getElementById('submitBtn').textContent = 'Processing...';
+            showLoading();
 
             try {
-                const apiUrl = `https://vern-rest-api.vercel.app/api/share?key=&cookie=${encodeURIComponent(cookie)}&link=${encodeURIComponent(postLink)}&limit=${encodeURIComponent(shareLimit)}`;
-
+                const apiUrl = `https://kryptonite-api-library.onrender.com/api/tikdl-v2?url=${encodeURIComponent(url)}`;
                 const response = await fetch(apiUrl);
-                
-                // Hide loading
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('submitBtn').disabled = false;
-                document.getElementById('submitBtn').textContent = 'Start';
-
-                if (!response.ok) {
-                    throw new Error(`Server error: ${response.status}`);
-                }
-
                 const data = await response.json();
 
-                // Check response properly
-                if (data.error) {
-                    handleError(data.error);
-                } else if (data.success === false) {
-                    handleError(data.message || 'Request failed');
-                } else if (data.success === true || data.message) {
-                    // Success case
-                    handleSuccess(data, shareLimit);
-                } else {
-                    // Default to success if no error
-                    handleSuccess(data, shareLimit);
+                let videoData = data.data || data;
+                
+                // Kunin ang best quality video URL
+                let downloadUrl = null;
+                
+                // Priority: HD -> Play/Video -> SD -> Wmplay
+                if (videoData.hdplay || videoData.hd) {
+                    downloadUrl = videoData.hdplay || videoData.hd;
+                } else if (videoData.play || videoData.video) {
+                    downloadUrl = videoData.play || videoData.video;
+                } else if (videoData.sd) {
+                    downloadUrl = videoData.sd;
+                } else if (videoData.wmplay) {
+                    downloadUrl = videoData.wmplay;
                 }
+
+                if (!downloadUrl) {
+                    showError('No download link available for this video.');
+                    return;
+                }
+
+                // Auto download
+                triggerDownload(downloadUrl);
+                showSuccess('Download started! Check your downloads folder.');
+                
+                // Clear input after successful download
+                setTimeout(() => {
+                    videoUrlInput.value = '';
+                }, 2000);
 
             } catch (error) {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('submitBtn').disabled = false;
-                document.getElementById('submitBtn').textContent = 'Start';
-                
-                if (error.message.includes('Failed to fetch')) {
-                    showStatus('error', 'Connection Error', 'Unable to reach the server. Check your internet connection.');
-                } else {
-                    showStatus('error', 'Request Failed', error.message);
-                }
+                console.error('Error:', error);
+                showError('Failed to fetch video. Please check your internet connection.');
+            } finally {
+                hideLoading();
             }
         }
 
-        function handleSuccess(data, shareLimit) {
-            showStatus('success', 'Success', `Successfully started ${shareLimit} shares.`);
+        function triggerDownload(url) {
+            // Method 1: Using anchor tag with download attribute
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'tiktok_video_' + Date.now() + '.mp4';
+            link.style.display = 'none';
             
-            document.getElementById('stats').style.display = 'grid';
-            document.getElementById('shareCount').textContent = shareLimit;
-            document.getElementById('statusText').textContent = '✓';
+            document.body.appendChild(link);
+            link.click();
             
-            document.getElementById('progressBar').style.display = 'block';
-            animateProgress(100, 1500);
-
-            if (data.message) {
-                setTimeout(() => {
-                    const msg = document.getElementById('statusMessage');
-                    msg.innerHTML += `<br><br>${data.message}`;
-                }, 400);
-            }
-        }
-
-        function handleError(errorMessage) {
-            const errorLower = errorMessage.toLowerCase();
-
-            if (errorLower.includes('invalid') || errorLower.includes('cookie') || errorLower.includes('token')) {
-                showStatus('error', 'Invalid Cookie', 'Your Facebook cookie is invalid or expired. Please get a fresh cookie.');
-            } else if (errorLower.includes('restrict') || errorLower.includes('blocked') || errorLower.includes('banned')) {
-                showStatus('warning', 'Account Restricted', 'Your account has been restricted. Wait before trying again.');
-            } else if (errorLower.includes('limit') || errorLower.includes('rate')) {
-                showStatus('warning', 'Rate Limited', 'Too many requests. Please wait a few minutes.');
-            } else if (errorLower.includes('not found') || errorLower.includes('404')) {
-                showStatus('error', 'Post Not Found', 'The post link is invalid or has been deleted.');
-            } else {
-                showStatus('error', 'Error', errorMessage);
-            }
-        }
-
-        function showStatus(type, title, message) {
-            const statusBox = document.getElementById('statusBox');
-            const statusTitle = document.getElementById('statusTitle');
-            const statusMessage = document.getElementById('statusMessage');
-
-            statusBox.className = `status-box ${type}`;
-            statusTitle.textContent = title;
-            statusMessage.textContent = message;
-            statusBox.style.display = 'block';
-
-            if (type === 'error' || type === 'warning') {
-                document.getElementById('stats').style.display = 'none';
-                document.getElementById('progressBar').style.display = 'none';
-            }
-        }
-
-        function animateProgress(targetPercent, duration) {
-            const progressFill = document.getElementById('progressFill');
-            let currentPercent = 0;
-            const increment = targetPercent / (duration / 30);
-
-            const interval = setInterval(() => {
-                currentPercent += increment;
-                if (currentPercent >= targetPercent) {
-                    currentPercent = targetPercent;
-                    clearInterval(interval);
-                }
-                progressFill.style.width = currentPercent + '%';
-            }, 30);
+            // Cleanup
+            setTimeout(() => {
+                document.body.removeChild(link);
+            }, 100);
         }
     </script>
 </body>
