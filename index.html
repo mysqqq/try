@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FB Auto Share</title>
+    <title>Facebook Auto Share</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,439 +15,451 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-            background: #000000;
-            color: #ffffff;
-            padding: 60px 20px 40px;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+            color: #e0e0e0;
             min-height: 100vh;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            opacity: 0;
+            animation: pageLoad 0.8s ease forwards;
+        }
+
+        @keyframes pageLoad {
+            to {
+                opacity: 1;
+            }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse 60% 40% at 50% 100%, rgba(139, 92, 246, 0.06) 0%, transparent 55%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
-            max-width: 380px;
+            max-width: 1100px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            padding-top: 20px;
         }
 
-        .header-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #ffffff;
-            letter-spacing: 1px;
-        }
-
-        .section {
-            margin-bottom: 16px;
-        }
-
-        .section-title {
-            font-size: 12px;
-            color: #888888;
-            margin-bottom: 7px;
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 25px;
             font-weight: 500;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 28px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #9ca3af;
+            margin-bottom: 8px;
             letter-spacing: 0.3px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .helper-link {
-            font-size: 11px;
-            color: #0066ff;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .helper-link:hover {
-            color: #0088ff;
-            text-decoration: underline;
         }
 
         input[type="text"],
         input[type="number"],
         textarea {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            padding: 9px 11px;
-            border-radius: 6px;
-            color: #ffffff;
-            font-size: 12px;
             width: 100%;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;
-            resize: none;
-            transition: border-color 0.2s ease, background 0.2s ease;
-        }
-
-        input[type="text"]::placeholder,
-        input[type="number"]::placeholder,
-        textarea::placeholder {
-            font-size: 11px;
-            color: #555555;
-        }
-
-        input.error,
-        textarea.error {
-            border-color: #ff4444;
-        }
-
-        textarea {
-            min-height: 42px;
-            font-family: monospace;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: #ffffff;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
         }
 
         input:focus,
         textarea:focus {
             outline: none;
-            border-color: #404040;
-            background: #1f1f1f;
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.05);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        input.error:focus,
-        textarea.error:focus {
-            border-color: #ff4444;
+        input::placeholder,
+        textarea::placeholder {
+            color: #6b7280;
         }
 
-        .error-message {
-            font-size: 11px;
-            color: #ff4444;
-            margin-top: 5px;
-            display: none;
-            font-weight: 500;
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
         }
 
-        .error-message.show {
-            display: block;
-        }
-
-        .submit-btn {
-            background: #ffffff;
-            color: #000000;
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             border: none;
-            padding: 12px 24px;
-            width: auto;
-            min-width: 120px;
-            border-radius: 6px;
-            font-size: 13px;
+            border-radius: 10px;
+            padding: 14px 24px;
+            color: #ffffff;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            margin: 12px auto 0;
-            display: block;
-            transition: all 0.2s ease;
-            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+            margin-top: 8px;
         }
 
-        .submit-btn:hover {
-            background: #f0f0f0;
-            transform: translateY(-1px);
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(59, 130, 246, 0.4);
         }
 
-        .submit-btn:active {
-            background: #e0e0e0;
-            transform: translateY(0);
-        }
-
-        .submit-btn:disabled {
-            background: #2a2a2a;
-            color: #555555;
+        .btn-primary:disabled {
+            opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
 
-        .session-id-display {
-            margin-top: 12px;
-            padding: 10px;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 6px;
-            font-size: 11px;
-            color: #888888;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(-5px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
+        .error-msg {
             display: none;
-        }
-
-        .session-id-display.show {
-            opacity: 1;
-            transform: translateY(0);
-            display: block;
-        }
-
-        .session-id-label {
-            color: #666666;
-            margin-right: 8px;
-        }
-
-        .session-id-value {
-            color: #ffffff;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #1a1a1a;
-        }
-
-        .footer-text {
-            font-size: 10px;
-            color: #555555;
-            letter-spacing: 0.5px;
-        }
-
-        .success-box {
-            background: linear-gradient(135deg, #0066ff 0%, #0052cc 100%);
-            color: #ffffff;
-            padding: 14px;
-            border-radius: 6px;
-            margin-top: 18px;
-            opacity: 0;
-            transform: scale(0.95);
+            margin-top: 8px;
+            padding: 10px 14px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            color: #ef4444;
             font-size: 13px;
-            text-align: center;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .success-box.show {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .session-active-box {
-            background: #1a1a1a;
-            border: 1px solid #00ff88;
-            color: #00ff88;
-            padding: 14px;
-            border-radius: 6px;
-            margin-top: 18px;
-            opacity: 0;
-            transform: scale(0.95);
-            font-size: 13px;
-            text-align: center;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .session-active-box.show {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
-        }
-
-        .error-box {
-            background: #1a1a1a;
-            border: 1px solid #ff4444;
-            color: #ff4444;
-            padding: 14px;
-            border-radius: 6px;
-            margin-top: 18px;
-            opacity: 0;
-            transform: scale(0.95);
-            font-size: 13px;
-            text-align: center;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .error-box.show {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .processing-box {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            padding: 14px;
-            border-radius: 6px;
-            margin-top: 18px;
-            opacity: 0;
-            transform: scale(0.95);
-            font-size: 13px;
-            text-align: center;
-            color: #888888;
-            pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .processing-box.show {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .processing-dots {
-            display: inline-block;
-            margin-left: 4px;
-        }
-
-        .processing-dots span {
-            animation: blink 1.4s infinite;
-            opacity: 0.3;
-        }
-
-        .processing-dots span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .processing-dots span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        .session-controls {
-            display: none;
-            margin-top: 18px;
-            gap: 10px;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .session-controls.active {
-            display: flex;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .check-btn,
-        .delete-btn {
-            flex: 1;
-            padding: 11px;
-            border: none;
-            border-radius: 6px;
-            font-size: 13px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            letter-spacing: 0.3px;
-        }
-
-        .check-btn {
-            background: #ffffff;
-            color: #000000;
-        }
-
-        .check-btn:hover {
-            background: #f0f0f0;
-            transform: translateY(-1px);
-        }
-
-        .delete-btn {
-            background: #1a1a1a;
-            color: #cccccc;
-            border: 1px solid #2a2a2a;
-        }
-
-        .delete-btn:hover {
-            background: #252525;
-            border-color: #333333;
-        }
-
-        .status-box {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            padding: 16px;
-            border-radius: 6px;
-            margin-top: 18px;
-            display: none;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .status-box.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .status-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #252525;
-            font-size: 12px;
-        }
-
-        .status-item:last-child {
-            border-bottom: none;
-        }
-
-        .status-label {
-            color: #888888;
             font-weight: 500;
         }
 
-        .status-value {
-            color: #ffffff;
+        .error-msg.show {
+            display: block;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        /* ── LIVE FEED ── */
+        .live-feed-card {
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #6b7280;
+            position: relative;
+        }
+
+        .status-dot.active {
+            background: #10b981;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+        }
+
+        .status-dot.active::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid #10b981;
+            animation: pulse-ring 2s ease-out infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+
+        .status-text {
+            font-size: 14px;
             font-weight: 600;
+            color: #9ca3af;
         }
 
-        .status-active {
-            color: #00ff88;
+        .status-text.active {
+            color: #10b981;
         }
 
-        .status-completed {
-            color: #0066ff;
+        .share-counter {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
         }
 
-        .status-failed {
-            color: #ff4444;
+        .counter-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -1px;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background: #2a2a2a;
+        .counter-total {
+            font-size: 16px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .post-preview {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .post-preview.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .post-preview-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .post-link {
+            color: #3b82f6;
+            font-size: 13px;
+            word-break: break-all;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .post-link:hover {
+            text-decoration: underline;
+        }
+
+        .activity-log {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 16px;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+
+        .activity-log::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .activity-log::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .activity-log::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 2px;
+        }
+
+        .log-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .log-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .log-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        .log-icon.success {
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        .log-icon.error {
+            background: rgba(239, 68, 68, 0.15);
+        }
+
+        .log-content {
+            flex: 1;
+        }
+
+        .log-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .log-time {
+            font-size: 11px;
+            color: #6b7280;
+            font-family: 'Courier New', monospace;
+        }
+
+        .progress-section {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .progress-section.show {
+            display: block;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #9ca3af;
+        }
+
+        .progress-percent {
+            font-size: 13px;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        .progress-bar-track {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 3px;
             overflow: hidden;
-            margin-top: 8px;
         }
 
-        .progress-fill {
+        .progress-bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, #0066ff, #00ff88);
             width: 0%;
+            background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
             transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
         }
 
-        @media (max-width: 480px) {
-            .container {
-                max-width: 100%;
-            }
-            
-            body {
-                padding: 50px 16px 30px;
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns: 1fr;
             }
 
-            .header-title {
-                font-size: 18px;
-            }
-
-            .submit-btn {
-                min-width: 100px;
-                padding: 11px 20px;
+            .live-feed-card {
+                min-height: 400px;
             }
         }
     </style>
@@ -452,432 +467,229 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1 class="header-title">AUTO SHARE</h1>
+            <h1>FACEBOOK AUTO SHARE</h1>
         </div>
 
-        <div class="section">
-            <div class="section-title">
-                <span>Cookie</span>
-                <a href="https://chromewebstore.google.com/detail/get-token-cookie/naciaagbkifhpnoodlkhbejjldaiffcm" target="_blank" class="helper-link">Get Cookie</a>
+        <div class="grid">
+            <!-- LEFT: CONFIG -->
+            <div class="card">
+                <div class="form-group">
+                    <label class="form-label">Facebook Cookie</label>
+                    <textarea id="cookieInput" placeholder="Paste your Facebook cookie here..." rows="3"></textarea>
+                    <div class="error-msg" id="cookieError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Post URL</label>
+                    <input type="text" id="linkInput" placeholder="https://facebook.com/...">
+                    <div class="error-msg" id="linkError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Share Amount</label>
+                    <input type="number" id="amountInput" placeholder="1 - 10000" min="1" max="1000">
+                    <div class="error-msg" id="amountError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Delay (seconds)</label>
+                    <input type="number" id="delayInput" placeholder="1, 2, 3" min="1" max="60">
+                </div>
+
+                <button class="btn-primary" id="startBtn">Start Sharing</button>
             </div>
-            <textarea id="cookieInput" placeholder="Paste your Facebook cookie here..."></textarea>
-            <div class="error-message" id="cookieError">Please enter your Facebook cookie</div>
-        </div>
 
-        <div class="section">
-            <div class="section-title">Link</div>
-            <input type="text" id="linkInput" placeholder="https://www.facebook.com/...">
-            <div class="error-message" id="linkError">Please enter a valid Facebook link</div>
-        </div>
+            <!-- RIGHT: LIVE FEED -->
+            <div class="card live-feed-card">
+                <div class="card-title">Live Activity Feed</div>
 
-        <div class="section">
-            <div class="section-title">Amount</div>
-            <input type="number" id="amountInput" placeholder="Enter amount" min="1">
-            <div class="error-message" id="amountError">Please enter amount</div>
-        </div>
+                <div class="status-banner">
+                    <div class="status-left">
+                        <div class="status-dot" id="statusDot"></div>
+                        <span class="status-text" id="statusText">Idle</span>
+                    </div>
+                    <div class="share-counter">
+                        <span class="counter-number" id="shareCount">0</span>
+                        <span class="counter-total">/ <span id="shareTotal">0</span></span>
+                    </div>
+                </div>
 
-        <div class="section">
-            <div class="section-title">Delay</div>
-            <input type="number" id="delayInput" placeholder="Enter delay (seconds)" min="0">
-            <div class="error-message" id="delayError">Please enter delay</div>
-        </div>
+                <div class="post-preview" id="postPreview">
+                    <div class="post-preview-label">Target Post</div>
+                    <a href="#" class="post-link" id="postLink" target="_blank"></a>
+                </div>
 
-        <button class="submit-btn" id="submitBtn">Submit</button>
+                <div class="progress-section" id="progressSection">
+                    <div class="progress-header">
+                        <span class="progress-label">Progress</span>
+                        <span class="progress-percent" id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-fill" id="progressBar"></div>
+                    </div>
+                </div>
 
-        <div class="session-id-display" id="sessionIdDisplay">
-            <span class="session-id-label">Session ID:</span>
-            <span class="session-id-value" id="sessionIdValue">—</span>
-        </div>
-
-        <div class="footer">
-            <div class="footer-text">© 2026 | Siegfried Samá</div>
-        </div>
-
-        <div class="error-box" id="errorBox">
-            Please fix the errors above
-        </div>
-
-        <div class="processing-box" id="processingBox">
-            Processing<span class="processing-dots"><span>.</span><span>.</span><span>.</span></span>
-        </div>
-
-        <div class="success-box" id="successBox">
-            Sharing started successfully
-        </div>
-
-        <div class="session-active-box" id="sessionActiveBox">
-            Session is running
-        </div>
-
-        <div class="session-controls" id="sessionControls">
-            <button class="delete-btn" id="deleteBtn">Delete</button>
-            <button class="check-btn" id="checkBtn">Check</button>
-        </div>
-
-        <div class="status-box" id="statusBox">
-            <div class="status-item">
-                <span class="status-label">Facebook Link</span>
-                <span class="status-value" id="sessionLink" style="font-size: 10px; word-break: break-all;">—</span>
-            </div>
-            <div class="status-item">
-                <span class="status-label">Session ID</span>
-                <span class="status-value" id="sessionId">—</span>
-            </div>
-            <div class="status-item">
-                <span class="status-label">Status</span>
-                <span class="status-value status-active" id="statusValue">Active</span>
-            </div>
-            <div class="status-item">
-                <span class="status-label">Progress</span>
-                <span class="status-value" id="progressValue">0 / 0</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <div class="status-item">
-                <span class="status-label">Started</span>
-                <span class="status-value" id="startTime">—</span>
-            </div>
-            <div class="status-item">
-                <span class="status-label">Estimated Time</span>
-                <span class="status-value" id="estimatedTime">—</span>
+                <div class="activity-log" id="activityLog">
+                    <div class="log-empty">Activity will appear here once sharing starts</div>
+                </div>
             </div>
         </div>
     </div>
 
+    <footer>© 2026 | Developed by: Siegfried Samá</footer>
+
     <script>
-        (function() {
-            let currentSession = null;
-            let progressInterval = null;
-            let startTimestamp = null;
+        const $ = id => document.getElementById(id);
+        const els = {
+            cookie: $('cookieInput'),
+            link: $('linkInput'),
+            amount: $('amountInput'),
+            delay: $('delayInput'),
+            startBtn: $('startBtn'),
+            cookieError: $('cookieError'),
+            linkError: $('linkError'),
+            amountError: $('amountError'),
+            statusDot: $('statusDot'),
+            statusText: $('statusText'),
+            shareCount: $('shareCount'),
+            shareTotal: $('shareTotal'),
+            postPreview: $('postPreview'),
+            postLink: $('postLink'),
+            progressSection: $('progressSection'),
+            progressBar: $('progressBar'),
+            progressPercent: $('progressPercent'),
+            activityLog: $('activityLog')
+        };
 
-            const $ = (id) => document.getElementById(id);
-            const el = {
-                submit: $('submitBtn'),
-                processing: $('processingBox'),
-                success: $('successBox'),
-                sessionActive: $('sessionActiveBox'),
-                error: $('errorBox'),
-                sessionControls: $('sessionControls'),
-                statusBox: $('statusBox'),
-                checkBtn: $('checkBtn'),
-                deleteBtn: $('deleteBtn'),
-                progressFill: $('progressFill'),
-                sessionIdDisplay: $('sessionIdDisplay'),
-                sessionIdValue: $('sessionIdValue'),
-                cookie: $('cookieInput'),
-                link: $('linkInput'),
-                amount: $('amountInput'),
-                delay: $('delayInput'),
-                cookieErr: $('cookieError'),
-                linkErr: $('linkError'),
-                amountErr: $('amountError'),
-                delayErr: $('delayError')
-            };
+        let isSharing = false;
+        let sharesDone = 0;
+        let totalShares = 0;
 
-            const msg = {
-                invalidCookie: 'Please generate a new cookie and try again. The current cookie is invalid, expired, or restricted.',
-                apiError: 'Unable to process your request. Please check your cookie and link, then try again.',
-                noSession: 'No active session'
-            };
+        function showError(el, msg) {
+            el.textContent = msg;
+            el.className = 'error-msg show';
+            setTimeout(() => el.className = 'error-msg', 4000);
+        }
 
-            const cls = (e, c, add) => add ? e.classList.add(c) : e.classList.remove(c);
-            
-            const clearErr = (input, err) => {
-                cls(input, 'error', false);
-                cls(err, 'show', false);
-            };
+        function setStatus(status, active = false) {
+            els.statusText.textContent = status;
+            els.statusText.className = active ? 'status-text active' : 'status-text';
+            els.statusDot.className = active ? 'status-dot active' : 'status-dot';
+        }
 
-            const showErr = (input, err, txt) => {
-                cls(input, 'error', true);
-                if (txt) err.textContent = txt;
-                cls(err, 'show', true);
-            };
+        function updateCounter(current, total) {
+            els.shareCount.textContent = current;
+            els.shareTotal.textContent = total;
 
-            const validateLink = (url) => {
-                if (!url) return false;
-                return [
-                    /^(https?:\/\/)?(www\.)?facebook\.com\/.+/i,
-                    /^(https?:\/\/)?(www\.)?fb\.watch\/.+/i,
-                    /^(https?:\/\/)?m\.facebook\.com\/.+/i,
-                    /^(https?:\/\/)?mobile\.facebook\.com\/.+/i
-                ].some(p => p.test(url));
-            };
+            const percent = Math.round((current / total) * 100);
+            els.progressPercent.textContent = percent + '%';
+            els.progressBar.style.width = percent + '%';
+        }
 
-            const validateInputs = () => {
-                let valid = true;
-                cls(el.error, 'show', false);
+        function addLog(message, type = 'success') {
+            if (els.activityLog.querySelector('.log-empty')) {
+                els.activityLog.innerHTML = '';
+            }
 
-                if (!el.cookie.value.trim()) {
-                    showErr(el.cookie, el.cookieErr);
-                    valid = false;
-                }
+            const log = document.createElement('div');
+            log.className = 'log-item';
 
-                if (!validateLink(el.link.value.trim())) {
-                    showErr(el.link, el.linkErr);
-                    valid = false;
-                }
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-US', { hour12: false });
 
-                const amt = el.amount.value.trim();
-                if (!amt || parseInt(amt) < 1) {
-                    showErr(el.amount, el.amountErr);
-                    valid = false;
-                }
+            log.innerHTML = `
+                <div class="log-icon ${type}">
+                    ${type === 'success' ? '✓' : '✗'}
+                </div>
+                <div class="log-content">
+                    <div class="log-title">${message}</div>
+                    <div class="log-time">${time}</div>
+                </div>
+            `;
 
-                const dly = el.delay.value.trim();
-                if (dly === '' || parseInt(dly) < 0) {
-                    showErr(el.delay, el.delayErr);
-                    valid = false;
-                }
+            els.activityLog.insertBefore(log, els.activityLog.firstChild);
 
-                return valid;
-            };
+            if (els.activityLog.children.length > 50) {
+                els.activityLog.removeChild(els.activityLog.lastChild);
+            }
+        }
 
-            const validateAPI = async (url) => {
-                try {
-                    const res = await fetch(url);
-                    if (res.status >= 400) return { valid: false, error: msg.invalidCookie };
+        function validate() {
+            let valid = true;
 
-                    let data;
-                    try {
-                        const txt = await res.text();
-                        if (txt.trim()) data = JSON.parse(txt);
-                        else return { valid: true, data: {} };
-                    } catch (e) {
-                        return { valid: true, data: {} };
-                    }
+            if (!els.cookie.value.trim()) {
+                showError(els.cookieError, 'Cookie is required');
+                valid = false;
+            }
 
-                    if (data.error === true || data.error === 'true') {
-                        return { valid: false, error: msg.invalidCookie };
-                    }
+            if (!els.link.value.trim()) {
+                showError(els.linkError, 'Post URL is required');
+                valid = false;
+            }
 
-                    if (['error', 'fail', 'failed'].includes(data.status)) {
-                        return { valid: false, error: msg.invalidCookie };
-                    }
+            const amount = parseInt(els.amount.value);
+            if (!amount || amount < 1 || amount > 1000) {
+                showError(els.amountError, 'Amount must be between 1 and 1000');
+                valid = false;
+            }
 
-                    if (data.message) {
-                        const m = data.message.toLowerCase();
-                        if (m.includes('cookie invalid') || m.includes('cookie expired') || 
-                            m.includes('suspended') || m.includes('account banned') || 
-                            m.includes('authentication failed')) {
-                            return { valid: false, error: msg.invalidCookie };
-                        }
-                    }
+            return valid;
+        }
 
-                    return { valid: true, data: data };
-                } catch (err) {
-                    return { valid: false, error: msg.apiError };
-                }
-            };
+        els.startBtn.addEventListener('click', async () => {
+            if (isSharing) return;
+            if (!validate()) return;
 
-            const fmtTime = (sec) => {
-                if (sec < 60) return `${sec}s`;
-                const m = Math.floor(sec / 60);
-                const s = sec % 60;
-                return `${m}m ${s}s`;
-            };
+            const cookie = els.cookie.value.trim();
+            const link = els.link.value.trim();
+            const amount = parseInt(els.amount.value);
+            const delay = parseInt(els.delay.value) * 1000;
 
-            const updateDisplay = () => {
-                if (!currentSession) return;
+            // Initialize
+            isSharing = true;
+            sharesDone = 0;
+            totalShares = amount;
 
-                const statusEl = $('statusValue');
-                const progEl = $('progressValue');
-                const timeEl = $('estimatedTime');
+            els.startBtn.disabled = true;
+            els.startBtn.textContent = 'Sharing...';
 
-                statusEl.textContent = currentSession.status;
-                statusEl.className = 'status-value';
-                
-                if (currentSession.status === 'Active') cls(statusEl, 'status-active', true);
-                else if (currentSession.status === 'Completed') cls(statusEl, 'status-completed', true);
-                else if (currentSession.status === 'Failed') cls(statusEl, 'status-failed', true);
+            setStatus('Active', true);
+            els.postPreview.className = 'post-preview show';
+            els.postLink.href = link;
+            els.postLink.textContent = link;
+            els.progressSection.className = 'progress-section show';
 
-                progEl.textContent = `${currentSession.progress} / ${currentSession.amount}`;
-                
-                const pct = (currentSession.progress / currentSession.amount) * 100;
-                el.progressFill.style.width = `${pct}%`;
+            updateCounter(0, totalShares);
+            addLog(`Started sharing session — Target: ${totalShares} shares`, 'success');
 
-                if (currentSession.status === 'Active' && currentSession.progress > 0) {
-                    const elapsed = (Date.now() - startTimestamp) / 1000;
-                    const rate = currentSession.progress / elapsed;
-                    const remain = currentSession.amount - currentSession.progress;
-                    const est = Math.ceil(remain / rate);
-                    timeEl.textContent = fmtTime(est);
-                } else if (currentSession.status === 'Completed') {
-                    timeEl.textContent = 'Completed';
-                } else {
-                    timeEl.textContent = '—';
-                }
-            };
+            // Sharing loop
+            for (let i = 1; i <= amount; i++) {
+                if (!isSharing) break;
 
-            const trackProgress = () => {
-                if (!currentSession) return;
-                if (progressInterval) clearInterval(progressInterval);
-
-                let lastProg = 0;
-                let stuck = 0;
-
-                progressInterval = setInterval(() => {
-                    if (!currentSession) {
-                        clearInterval(progressInterval);
-                        progressInterval = null;
-                        return;
-                    }
-
-                    let inc;
-                    const pct = (currentSession.progress / currentSession.amount) * 100;
-                    
-                    if (pct < 10) inc = Math.floor(Math.random() * 3) + 1;
-                    else if (pct < 90) inc = Math.floor(Math.random() * 6) + 3;
-                    else inc = Math.floor(Math.random() * 2) + 1;
-
-                    currentSession.progress = Math.min(
-                        currentSession.progress + inc,
-                        currentSession.amount
-                    );
-
-                    if (currentSession.progress === lastProg) {
-                        stuck++;
-                        if (stuck > 10) currentSession.status = 'Checking';
-                    } else {
-                        stuck = 0;
-                        lastProg = currentSession.progress;
-                    }
-
-                    if (el.statusBox.classList.contains('active')) updateDisplay();
-
-                    if (currentSession.progress >= currentSession.amount) {
-                        currentSession.status = 'Completed';
-                        cls(el.sessionActive, 'show', false);
-                        updateDisplay();
-                        el.submit.disabled = false;
-                        el.submit.style.opacity = '1';
-                        clearInterval(progressInterval);
-                        progressInterval = null;
-                    }
-                }, 3000);
-            };
-
-            el.cookie.addEventListener('input', () => clearErr(el.cookie, el.cookieErr));
-            el.link.addEventListener('input', () => clearErr(el.link, el.linkErr));
-            el.amount.addEventListener('input', () => clearErr(el.amount, el.amountErr));
-            el.delay.addEventListener('input', () => clearErr(el.delay, el.delayErr));
-
-            el.submit.addEventListener('click', async () => {
-                if (el.submit.disabled) return;
-                if (!validateInputs()) return;
-
-                const cookie = el.cookie.value.trim();
-                const link = el.link.value.trim();
-                const amount = el.amount.value.trim();
-
-                el.submit.disabled = true;
-                el.submit.style.opacity = '0.5';
-
-                const apiUrl = `https://vern-rest-api.vercel.app/api/share?key=&cookie=${encodeURIComponent(cookie)}&link=${encodeURIComponent(link)}&limit=${encodeURIComponent(amount)}`;
-                
-                cls(el.processing, 'show', true);
+                const apiUrl = `https://vern-rest-api.vercel.app/api/share?key=&cookie=${encodeURIComponent(cookie)}&link=${encodeURIComponent(link)}&limit=1`;
 
                 try {
-                    const valPromise = validateAPI(apiUrl);
-                    const timeout = new Promise(res => setTimeout(() => res({ valid: true }), 3000));
-                    const result = await Promise.race([valPromise, timeout]);
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
 
-                    cls(el.processing, 'show', false);
+                    sharesDone++;
+                    updateCounter(sharesDone, totalShares);
+                    addLog(`Share #${sharesDone} completed successfully`, 'success');
 
-                    if (result.valid === false) {
-                        el.submit.disabled = false;
-                        el.submit.style.opacity = '1';
-                        showErr(el.cookie, el.cookieErr, result.error);
-                        el.error.textContent = result.error;
-                        cls(el.error, 'show', true);
-                        setTimeout(() => cls(el.error, 'show', false), 5000);
-                        return;
-                    }
-
-                    const sid = 'SHR' + Date.now().toString(36).toUpperCase();
-                    const stime = new Date().toLocaleString();
-                    startTimestamp = Date.now();
-
-                    currentSession = {
-                        id: sid,
-                        link: link,
-                        amount: parseInt(amount),
-                        progress: 0,
-                        status: 'Active',
-                        startTime: stime,
-                        apiUrl: apiUrl
-                    };
-
-                    cls(el.success, 'show', true);
-                    el.sessionIdValue.textContent = sid;
-                    cls(el.sessionIdDisplay, 'show', true);
-                    
-                    setTimeout(() => {
-                        cls(el.success, 'show', false);
-                        cls(el.sessionActive, 'show', true);
-                        setTimeout(() => cls(el.sessionControls, 'active', true), 100);
-                    }, 2000);
-
-                    trackProgress();
-                } catch (err) {
-                    el.submit.disabled = false;
-                    el.submit.style.opacity = '1';
-                    cls(el.processing, 'show', false);
-                    el.error.textContent = msg.apiError;
-                    cls(el.error, 'show', true);
-                    setTimeout(() => cls(el.error, 'show', false), 5000);
-                }
-            });
-
-            el.checkBtn.addEventListener('click', () => {
-                if (!currentSession) {
-                    el.error.textContent = msg.noSession;
-                    cls(el.error, 'show', true);
-                    setTimeout(() => cls(el.error, 'show', false), 3000);
-                    return;
+                } catch (error) {
+                    addLog(`Share #${i} failed — ${error.message}`, 'error');
                 }
 
-                $('sessionLink').textContent = currentSession.link;
-                $('sessionId').textContent = currentSession.id;
-                $('startTime').textContent = currentSession.startTime;
-                updateDisplay();
-                cls(el.statusBox, 'active', true);
-                setTimeout(() => cls(el.statusBox, 'active', false), 8000);
-            });
+                if (i < amount) await new Promise(r => setTimeout(r, delay));
+            }
 
-            el.deleteBtn.addEventListener('click', () => {
-                if (!currentSession) return;
-                if (!confirm('Are you sure you want to delete this session?')) return;
-
-                if (progressInterval) {
-                    clearInterval(progressInterval);
-                    progressInterval = null;
-                }
-
-                currentSession = null;
-                startTimestamp = null;
-                
-                cls(el.sessionControls, 'active', false);
-                cls(el.sessionActive, 'show', false);
-                cls(el.statusBox, 'active', false);
-                cls(el.sessionIdDisplay, 'show', false);
-                
-                el.submit.disabled = false;
-                el.submit.style.opacity = '1';
-                
-                el.cookie.value = '';
-                el.link.value = '';
-                el.amount.value = '';
-                el.delay.value = '';
-
-                clearErr(el.cookie, el.cookieErr);
-                clearErr(el.link, el.linkErr);
-                clearErr(el.amount, el.amountErr);
-                clearErr(el.delay, el.delayErr);
-                
-                el.progressFill.style.width = '0%';
-            });
-        })();
+            // Done
+            isSharing = false;
+            setStatus('Completed', false);
+            els.startBtn.disabled = false;
+            els.startBtn.textContent = 'Start Sharing';
+            addLog(`Session completed — Total shares: ${sharesDone}/${totalShares}`, 'success');
+        });
     </script>
 </body>
 </html>
